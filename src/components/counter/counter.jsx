@@ -5,16 +5,16 @@ import { connect } from 'react-redux';
 function Counter({counter, dispatch}) {
     return (
         <div id='counter-container'>
-            <p id='badge' className={counter.value === 0 ? 'zero' : ''}>
+            <p className={counter.value === 0 ? 'zero' : ''}>
                 {counter.value === 0 ? 'zero' : counter.value}
             </p>
-            <button id='increment' onClick={ () => dispatch({ type: 'INC', id: counter.id }) }>
+            <button onClick={ () => dispatch({ type: 'INC', id: counter.id }) }>
                 <MdAddCircle />
             </button>
-            <button id='decrement' onClick={ () => dispatch({ type: 'DEC', id: counter.id }) }>
+            <button onClick={ () => dispatch({ type: 'DEC', id: counter.id }) }>
                 <MdRemoveCircle />
             </button>
-            {counter.value === 0 && <button id='delete' onClick={ () => dispatch({ type: 'DEL', id: counter.id }) }>
+            {counter.value === 0 && <button onClick={ () => dispatch({ type: 'DEL', id: counter.id }) }>
                 <MdDeleteForever />
             </button>}
         </div>

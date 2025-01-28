@@ -28,7 +28,7 @@ jobs:
       # Setup node version 16.x
       - uses: actions/setup-node@v1
         with:
-          node-version: '16.x'
+          node-version: '20.x'
 
       # Install the dependecies and triggers the build
       - name: Installing dependencies and building the app

@@ -40,6 +40,6 @@ jobs:
       - name: Deploying to gh-pages branch
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: build # The folder the action should deploy.
+          folder: dist # The folder the action should deploy.
           branch: gh-pages
           

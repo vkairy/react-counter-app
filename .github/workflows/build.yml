@@ -2,34 +2,27 @@ name: Build
 
 on:
   push:
-    branches:
-      - master
   pull_request:
-    branches:
-      - master
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [22.x]
     steps:
       - name: ⏬ - Checkout
         uses: actions/checkout@v4
-      - name: ⚙️ - Setup Node.js ${{ matrix.node-version }}
+      - name: ⚙️ - Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 22
           cache: 'npm'
       - name: 🛠️ - Installing dependencies and building the app
         run: |
           npm ci
           npm run build
-  tag:
-    if: ${{ github.ref == 'refs/heads/master' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: 🌟 - Generating release
-        run: npm run release
+      - name: 📦 - Store build artifact
+        if: github.ref == 'refs/heads/master'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+          path: ./dist

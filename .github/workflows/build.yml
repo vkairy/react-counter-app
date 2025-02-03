@@ -41,7 +41,23 @@ jobs:
         run: npm ci
       - name: 🧮 - Calculate new version
         run: |
-          git config --global user.name "CI agent"
-          git config --global user.email "ciagent@users.noreply.github.com"
+          git config --global user.name "GitHub CI"
+          git config --global user.email "githubci@users.noreply.github.com"
           npm run release
           git push --follow-tags
+  deploy:
+    needs: git-release
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: latest-build
+          path: ./dist
+      - name: Display structure of downloaded files
+        run: ls -R
+      - name: ⬆️ - Deploying to gh-pages branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ./dist
+          branch: gh-pages

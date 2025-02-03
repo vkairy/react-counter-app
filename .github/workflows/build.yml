@@ -30,6 +30,15 @@ jobs:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
+      - name: ⏬ - Checkout
+        uses: actions/checkout@v4
+      - name: ⚙️ - Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+      - name: 🛠️ - Installing dependencies
+        run: npm ci
       - name: 🧮 - Calculate new version
         run: |
           npm run release

@@ -50,11 +50,14 @@ jobs:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
+      - name: ⏬ - Checkout
+        uses: actions/checkout@v4
+      - name: ⬇️ - Download build artifact
+        uses: actions/download-artifact@v4
         with:
           name: latest-build
           path: ./dist
-      - name: Display structure of downloaded files
+      - name: 📃 - Display structure of downloaded files
         run: ls -R
       - name: ⬆️ - Deploying to gh-pages branch
         uses: JamesIves/github-pages-deploy-action@v4

@@ -41,5 +41,7 @@ jobs:
         run: npm ci
       - name: 🧮 - Calculate new version
         run: |
+          git config --global user.name "CI agent"
+          git config --global user.email "ciagent@users.noreply.github.com"
           npm run release
           git push --follow-tags

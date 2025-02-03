@@ -1,8 +1,8 @@
 name: Deploy to GitHub Pages
 
 on:
-  release:
-    types: [created]
+  push:
+    tags: '*'
 
 jobs:
   deploy:
@@ -10,11 +10,12 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: build-${{ github.sha }}
+          name: latest-build
+          path: ./dist
       - name: Display structure of downloaded files
         run: ls -R
       - name: ⬆️ - Deploying to gh-pages branch
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist
+          folder: ./dist
           branch: gh-pages

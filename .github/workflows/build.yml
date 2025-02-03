@@ -1,5 +1,4 @@
 name: Build
-
 on:
   push:
   pull_request:
@@ -20,9 +19,18 @@ jobs:
         run: |
           npm ci
           npm run build
-      - name: 📦 - Store build artifact
+      - name: ⬆ - Upload build artifact
         if: github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@v4
         with:
-          name: build-${{ github.sha }}
-          path: ./dist
+          name: latest-build
+          path: ./dist 
+  git-release:
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🧮 - Calculate new version
+        run: |
+          npm run release
+          git push --follow-tags

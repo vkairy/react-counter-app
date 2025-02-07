@@ -1,4 +1,4 @@
-[![Build and Deploy to Github Pages](https://github.com/vkairy/react-counter-app/actions/workflows/build-and-deploy.yml/badge.svg)](https://github.com/vkairy/react-counter-app/actions/workflows/build-and-deploy.yml) [![pages-build-deployment](https://github.com/vkairy/react-counter-app/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/vkairy/react-counter-app/actions/workflows/pages/pages-build-deployment)
+[![Build](https://github.com/vkairy/react-counter-app/actions/workflows/build.yml/badge.svg)](https://github.com/vkairy/react-counter-app/actions/workflows/build.yml) [![pages-build-deployment](https://github.com/vkairy/react-counter-app/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/vkairy/react-counter-app/actions/workflows/pages/pages-build-deployment)
 
 
 # Getting Started with Create React App

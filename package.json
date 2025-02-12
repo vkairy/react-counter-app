@@ -1,5 +1,6 @@
 {
   "name": "counter-app",
+  "homepage": "react-counter-app/"
   "version": "0.1.0",
   "private": true,
   "dependencies": {

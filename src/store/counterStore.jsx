@@ -9,6 +9,8 @@ const initialState = [
     { id: 6, value: 0 },
     { id: 7, value: 0 },
     { id: 8, value: 0 },
+    { id: 9, value: 0 },
+    { id: 10, value: 0 },
 ];
 
 const counterReducer = (state = initialState, action) => {

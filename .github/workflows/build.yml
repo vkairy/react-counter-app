@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+    steps:
+      - name: ⏬ - Checkout
+        uses: actions/checkout@v4
+      - name: ⚙️ - Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: 🛠️ - Installing dependencies and building the app
+        run: |
+          npm ci
+          npm run build
+  tag:
+    if: ${{ github.ref == '/refs/heads/master' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🌟 - Generating release
+        run: npm run release
+

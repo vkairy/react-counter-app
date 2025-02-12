@@ -1,3 +1,6 @@
+[![Build and Deploy to Github Pages](https://github.com/vkairy/react-counter-app/actions/workflows/build-and-deploy.yml/badge.svg)](https://github.com/vkairy/react-counter-app/actions/workflows/build-and-deploy.yml) [![pages-build-deployment](https://github.com/vkairy/react-counter-app/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/vkairy/react-counter-app/actions/workflows/pages/pages-build-deployment)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

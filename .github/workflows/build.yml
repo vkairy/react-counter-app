@@ -1,4 +1,5 @@
 name: Build
+
 on:
   push:
   pull_request:
@@ -19,19 +20,27 @@ jobs:
         run: |
           npm ci
           npm run build
-      - name: ⬆ - Upload build artifact
-        if: github.ref == 'refs/heads/main'
+      - name: ⬆ - Upload pre-build artifact
+        # Este artefato é útil para inspecionar builds de PRs e outras branches.
+        # Na main, ele é um "backup" caso o git-release falhe, mas não é usado para o deploy final.
         uses: actions/upload-artifact@v4
         with:
-          name: latest-build
-          path: ./dist 
+          name: pre-build-artifact
+          path: ./dist
+
   git-release:
-    needs: build
-    if: github.ref == 'refs/heads/main'
+    needs: build # Garante que o build básico passou antes de tentar o release
+    if: github.ref == 'refs/heads/main' # Roda apenas na branch main
     runs-on: ubuntu-latest
+    # Define o output 'new_version' para ser acessado por outros jobs (como 'deploy')
+    outputs:
+      new_version: ${{ steps.calculate_version.outputs.new_version }}
     steps:
       - name: ⏬ - Checkout
         uses: actions/checkout@v4
+        with:
+          # fetch-depth: 0 é crucial para o commit-and-tag-version, que precisa do histórico completo.
+          fetch-depth: 0
       - name: ⚙️ - Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -39,26 +48,51 @@ jobs:
           cache: 'npm'
       - name: 🛠️ - Installing dependencies
         run: npm ci
-      - name: 🧮 - Calculate new version
+
+      - name: 🧮 - Calculate new version and tag
+        id: calculate_version # ID para referenciar outputs desta step
         run: |
           git config --global user.name "GitHub CI"
           git config --global user.email "githubci@users.noreply.github.com"
+          # Executa o commit-and-tag-version, que atualiza o package.json e cria a tag
           npm run release
+          # Captura a nova versão do package.json
+          NEW_VERSION_VAL=$(node -p "require('./package.json').version")
+          # Exporta a versão como uma variável de ambiente para passos subsequentes neste job
+          echo "NEW_VERSION=$NEW_VERSION_VAL" >> $GITHUB_ENV
+          # Exporta a versão como um output desta step, que é então exposto como output do job
+          echo "new_version=$NEW_VERSION_VAL" >> "$GITHUB_OUTPUT"
+          # Faz o push das tags e do package.json atualizado
           git push --follow-tags
+
+      - name: 🔄 - Rebuild app with new version
+        # Este passo refaz o build *depois* que o package.json foi atualizado com a nova versão.
+        # Assim, o Vite injetará a versão correta no index.html.
+        run: npm run build
+
+      - name: ⬆ - Upload final build artifact (with correct version in name)
+        uses: actions/upload-artifact@v4
+        with:
+          # O nome do artefato inclui a versão para facilitar a identificação
+          name: app-build-${{ env.NEW_VERSION }}
+          path: ./dist
+
   deploy:
+    # Depende do job git-release para garantir que a nova versão foi gerada e o build reconstruído
     needs: git-release
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' # Roda apenas na branch main
     runs-on: ubuntu-latest
     steps:
       - name: ⏬ - Checkout
         uses: actions/checkout@v4
-      - name: ⬇️ - Download build artifact
+      - name: ⬇️ - Download final build artifact
         uses: actions/download-artifact@v4
         with:
-          name: latest-build
+          # Baixa o artefato gerado no job git-release, usando o nome dinâmico
+          name: app-build-${{ needs.git-release.outputs.new_version }}
           path: ./dist
       - name: 📃 - Display structure of downloaded files
-        run: ls -R
+        run: ls -R dist # Exibe a estrutura da pasta 'dist' baixada
       - name: ⬆️ - Deploying to gh-pages branch
         uses: JamesIves/github-pages-deploy-action@v4
         with:

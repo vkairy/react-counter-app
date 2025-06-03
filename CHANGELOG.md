@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 0.1.16 (2025-06-03)
+
+
+### Features
+
+* add version as metadata field into index.html ([#28](https://github.com/vkairy/react-counter-app/issues/28)) ([deae377](https://github.com/vkairy/react-counter-app/commit/deae3770d92c815e846bd9bebf626013ade7e0d9))
+
 ## 0.1.15 (2025-06-03)
 
 ## 0.1.14 (2025-06-02)

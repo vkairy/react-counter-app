@@ -32,6 +32,8 @@ jobs:
     needs: build # Garante que o build básico passou antes de tentar o release
     if: github.ref == 'refs/heads/main' # Roda apenas na branch main
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     # Define o output 'new_version' para ser acessado por outros jobs (como 'deploy')
     outputs:
       new_version: ${{ steps.calculate_version.outputs.new_version }}

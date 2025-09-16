@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.21](https://github.com/vkairy/react-counter-app/compare/v0.1.20...v0.1.21) (2025-09-16)
+
 ## [0.1.20](https://github.com/vkairy/react-counter-app/compare/v0.1.19...v0.1.20) (2025-08-01)
 
 ## [0.1.19](https://github.com/vkairy/react-counter-app/compare/v0.1.18...v0.1.19) (2025-07-30)

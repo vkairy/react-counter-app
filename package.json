@@ -1,7 +1,7 @@
 {
   "name": "counter-app",
   "homepage": "react-counter-app/",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",

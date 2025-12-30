@@ -9,6 +9,15 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "monthly"
+    groups:
+      vitest-dependencies:
+        patterns:
+          - "vitest*"
+          - "@vitest/*"
+      react-dependencies:
+        patterns:
+          - "react"
+          - "react-dom"
     ignore:
       # For all deps
       - dependency-name: "*"
